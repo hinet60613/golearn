@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"math"
 )
 
 // FloatAttribute is an implementation which stores floating point
@@ -92,11 +93,13 @@ func (Attr *FloatAttribute) String() string {
 
 // CheckSysValFromString confirms whether a given rawVal can
 // be converted into a valid system representation. If it can't,
-// the returned value is nil.
+// the returned value is math.NaN().
 func (Attr *FloatAttribute) CheckSysValFromString(rawVal string) ([]byte, error) {
 	f, err := strconv.ParseFloat(rawVal, 64)
 	if err != nil {
-		return nil, err
+		//return nil, err
+		err = nil
+		f = math.NaN()
 	}
 
 	ret := PackFloatToBytes(f)
